@@ -4,13 +4,18 @@ import csv
 from datetime import datetime
 
 TOKEN = os.getenv("GH_TOKEN")
-print("GH_TOKEN:", TOKEN) 
+ 
 REPO = "yvsoucom/yvsou-cms"  # ← Change this
 #HEADERS = {"Authorization": f"token {TOKEN}"}
-HEADERS = {"Authorization": f"Bearer {TOKEN}"}
+#HEADERS = {"Authorization": f"Bearer {TOKEN}"}
+HEADERS = {
+        "Authorization": f"token {os.getenv('GH_TOKEN')}",
+        "Accept": "application/vnd.github+json"
+    }
 BASE = "https://api.github.com/repos/" + REPO
 
 def fetch_json(url):
+
     r = requests.get(url, headers=HEADERS)
     r.raise_for_status()
     return r.json()
