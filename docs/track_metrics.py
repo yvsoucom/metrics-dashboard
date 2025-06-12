@@ -3,7 +3,7 @@ import requests
 import csv
 from datetime import datetime
 
-TOKEN = os.getenv("GH_TOKEN")
+TOKEN = os.getenv("GH_PAT")
 REPO = "yvsoucom/yvsou-cms"  # ← Change this
 HEADERS = {"Authorization": f"token {TOKEN}"}
 BASE = "https://api.github.com/repos/" + REPO
