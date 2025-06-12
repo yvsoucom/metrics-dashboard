@@ -25,7 +25,7 @@ today = datetime.utcnow().strftime("%Y-%m-%d")
 
 # Clone stats
 clones = fetch_json(BASE + "/traffic/clones")
-append_csv("metrics/clone-stats.csv", ["date", "clones", "unique_cloners"], {
+append_csv("docs/clone-stats.csv", ["date", "clones", "unique_cloners"], {
     "date": today,
     "clones": clones["count"],
     "unique_cloners": clones["uniques"]
@@ -33,7 +33,7 @@ append_csv("metrics/clone-stats.csv", ["date", "clones", "unique_cloners"], {
 
 # Repo stats
 repo = fetch_json(BASE)
-append_csv("metrics/repo-stats.csv", ["date", "stars", "forks", "watchers"], {
+append_csv("docs/repo-stats.csv", ["date", "stars", "forks", "watchers"], {
     "date": today,
     "stars": repo["stargazers_count"],
     "forks": repo["forks_count"],
