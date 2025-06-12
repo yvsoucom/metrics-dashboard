@@ -3,8 +3,8 @@ import requests
 import csv
 from datetime import datetime
 
-TOKEN = os.getenv("GH_PAT")
-print("GH_PAT:", TOKEN) 
+TOKEN = os.getenv("GH_TOKEN")
+print("GH_TOKEN:", TOKEN) 
 REPO = "yvsoucom/yvsou-cms"  # ← Change this
 #HEADERS = {"Authorization": f"token {TOKEN}"}
 HEADERS = {"Authorization": f"Bearer {TOKEN}"}
