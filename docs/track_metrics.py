@@ -4,8 +4,10 @@ import csv
 from datetime import datetime
 
 TOKEN = os.getenv("GH_PAT")
+print("GH_PAT:", TOKEN) 
 REPO = "yvsoucom/yvsou-cms"  # ← Change this
-HEADERS = {"Authorization": f"token {TOKEN}"}
+#HEADERS = {"Authorization": f"token {TOKEN}"}
+HEADERS = {"Authorization": f"Bearer {TOKEN}"}
 BASE = "https://api.github.com/repos/" + REPO
 
 def fetch_json(url):
