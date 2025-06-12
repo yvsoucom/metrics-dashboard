@@ -22,7 +22,7 @@ jobs:
         run: pip install requests
 
       - name: Run tracking script
-        run: python track_metrics.py
+        run: python docs/track_metrics.py
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
 
