@@ -68,19 +68,15 @@
 
       // Repo Stats
       const repoStats = await loadCSV('metrics/repo-stats.csv');
+      const repoDates = repoStats.map(r => r.date);
       const stars = repoStats.map(r => r.stars);
       const forks = repoStats.map(r => r.forks);
       const watchers = repoStats.map(r => r.watchers);
-      const data = [
-        { x: dates, y: stars, name: 'Stars', type: 'scatter' },
-        { x: dates, y: forks, name: 'Forks', type: 'scatter' },
-        { x: dates, y: watchers, name: 'Watchers', type: 'scatter' }
-      ];
-
+     
       new Chart(document.getElementById('repoChart'), {
         type: 'line',
         data: {
-          labels: dates,
+          labels: repoDates,
           datasets: [
             {
               label: 'Stars',
