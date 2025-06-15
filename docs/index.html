@@ -1,84 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>GitHub Repo Metrics Dashboard</title>
-  <script src="chart.js"></script>
-  <style>
-    body { font-family: sans-serif; padding: 2em; }
-    canvas { max-width: 800px; margin-bottom: 2em; }
-    h2 { margin-top: 2em; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub Metrics Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <h1>📊 GitHub Metrics Dashboard</h1>
-
-  <h2>⭐ Stars, 🍴 Forks, 👁️ Watchers</h2>
-  <canvas id="repoChart"></canvas>
-
-  <h2>📥 Clones (Last 14 Days)</h2>
-  <canvas id="cloneChart"></canvas>
+  <h1>📊 GitHub Repository Metrics</h1>
+  
+  <canvas id="cloneChart" width="600" height="300"></canvas>
+  <canvas id="repoChart" width="600" height="300"></canvas>
 
   <script>
     async function loadCSV(url) {
       const res = await fetch(url);
       const text = await res.text();
-      const lines = text.trim().split('\n');
-      const headers = lines[0].split(',');
-      return lines.slice(1).map(line => {
-        const values = line.split(',');
-        return headers.reduce((obj, key, i) => {
-          obj[key] = isNaN(values[i]) ? values[i] : +values[i];
-          return obj;
-        }, {});
+      const rows = text.trim().split('\n').map(row => row.split(','));
+      const headers = rows.shift();
+      return rows.map(row => {
+        const obj = {};
+        row.forEach((val, idx) => {
+          obj[headers[idx]] = isNaN(val) ? val : Number(val);
+        });
+        return obj;
       });
     }
 
     async function renderCharts() {
-      const repoStats = await loadCSV('repo-stats.csv');
-      const cloneStats = await loadCSV('clone-stats.csv');
+      // Clone Stats
+      const cloneStats = await loadCSV('metrics/clone-stats.csv');
+      const dates = cloneStats.map(r => r.date);
+      const clones = cloneStats.map(r => r.clones);
+      const uniques = cloneStats.map(r => r.unique_cloners);
 
-      const dates = repoStats.map(row => row.date);
-      const stars = repoStats.map(row => row.stars);
-      const forks = repoStats.map(row => row.forks);
-      const watchers = repoStats.map(row => row.watchers);
-
-      const ctxRepo = document.getElementById('repoChart').getContext('2d');
-      new Chart(ctxRepo, {
+      new Chart(document.getElementById('cloneChart'), {
         type: 'line',
         data: {
           labels: dates,
           datasets: [
-            { label: 'Stars ⭐', data: stars, borderColor: 'gold', fill: false },
-            { label: 'Forks 🍴', data: forks, borderColor: 'purple', fill: false },
-            { label: 'Watchers 👁️', data: watchers, borderColor: 'green', fill: false }
-          ]
-        },
-        options: { responsive: true }
-      });
-
-      const ctxClone = document.getElementById('cloneChart').getContext('2d');
-      new Chart(ctxClone, {
-        type: 'bar',
-        data: {
-          labels: cloneStats.map(r => r.date),
-          datasets: [
             {
-              label: 'Total Clones',
-              data: cloneStats.map(r => r.clones),
-              backgroundColor: 'steelblue'
+              label: 'Clones',
+              data: clones,
+              borderColor: 'blue',
+              fill: false
             },
             {
               label: 'Unique Cloners',
-              data: cloneStats.map(r => r.unique_cloners),
-              backgroundColor: 'orange'
+              data: uniques,
+              borderColor: 'green',
+              fill: false
             }
           ]
         },
-        options: { responsive: true }
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Clone Stats'
+            }
+          }
+        }
+      });
+
+      // Repo Stats
+      const repoStats = await loadCSV('metrics/repo-stats.csv');
+      const stars = repoStats.map(r => r.stars);
+      const forks = repoStats.map(r => r.forks);
+      const watchers = repoStats.map(r => r.watchers);
+
+      new Chart(document.getElementById('repoChart'), {
+        type: 'line',
+        data: {
+          labels: dates,
+          datasets: [
+            {
+              label: 'Stars',
+              data: stars,
+              borderColor: 'gold',
+              fill: false
+            },
+            {
+              label: 'Forks',
+              data: forks,
+              borderColor: 'orange',
+              fill: false
+            },
+            {
+              label: 'Watchers',
+              data: watchers,
+              borderColor: 'purple',
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Repo Stats'
+            }
+          }
+        }
       });
     }
+
     renderCharts();
   </script>
 </body>
 </html>
+ 
