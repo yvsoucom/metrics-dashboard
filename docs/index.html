@@ -32,7 +32,6 @@
     async function renderCharts() {
       // Clone Stats
       const cloneStats = await loadCSV('metrics/clone-stats.csv');
-      window.cloneStats = cloneStats;
       const dates = cloneStats.map(r => r.date);
       const clones = cloneStats.map(r => r.clones);
       const uniques = cloneStats.map(r => r.unique_cloners);
@@ -69,12 +68,11 @@
 
       // Repo Stats
       const repoStats = await loadCSV('metrics/repo-stats.csv');
-      window.repoStats = repoStats;
       const repoDates = repoStats.map(r => r.date);
       const stars = repoStats.map(r => r.stars);
       const forks = repoStats.map(r => r.forks);
       const watchers = repoStats.map(r => r.watchers);
-     
+
       new Chart(document.getElementById('repoChart'), {
         type: 'line',
         data: {
