@@ -23,7 +23,7 @@
       return rows.map(row => {
         const obj = {};
         row.forEach((val, idx) => {
-          obj[headers[idx]] = isNaN(val) ? val : Number(val);
+          obj[headers[idx].trim()] = isNaN(val) ? val : Number(val);
         });
         return obj;
       });
