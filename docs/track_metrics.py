@@ -4,7 +4,7 @@ import csv
 from datetime import datetime, timezone
 
  
-GH_TOKEN = os.getenv("GH_PAT_YVSOU_CMS")
+GH_TOKEN = os.getenv("GH_TOKEN")
  
 REPO = "yvsoucom/yvsou-cms"  # ← Change this
 #HEADERS = {"Authorization": f"token {TOKEN}"}
@@ -14,7 +14,7 @@ BASE = "https://api.github.com/repos/" + REPO
 
 def fetch_json(url):
     HEADERS = {
-        "Authorization": f"token {os.getenv('GH_TOKEN')}",
+        "Authorization": f"Bearer {GH_TOKEN}",
         "Accept": "application/vnd.github+json"
     }
     r = requests.get(url, headers=HEADERS)
