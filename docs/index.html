@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GitHub Metrics Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
   <h1>📊 GitHub Repository Metrics</h1>
-  
+
   <canvas id="cloneChart" width="600" height="300"></canvas>
   <canvas id="repoChart" width="600" height="300"></canvas>
 
@@ -69,6 +71,11 @@
       const stars = repoStats.map(r => r.stars);
       const forks = repoStats.map(r => r.forks);
       const watchers = repoStats.map(r => r.watchers);
+      const data = [
+        { x: dates, y: stars, name: 'Stars', type: 'scatter' },
+        { x: dates, y: forks, name: 'Forks', type: 'scatter' },
+        { x: dates, y: watchers, name: 'Watchers', type: 'scatter' }
+      ];
 
       new Chart(document.getElementById('repoChart'), {
         type: 'line',
@@ -110,5 +117,5 @@
     renderCharts();
   </script>
 </body>
+
 </html>
- 
