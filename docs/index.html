@@ -10,6 +10,7 @@
 
 <body>
   <h1>📊 GitHub Repository Metrics</h1>
+  <p id="cloneSummary" style="font-weight:bold; font-size: 1.1rem;"></p>
 
   <canvas id="cloneChart" width="600" height="300"></canvas>
   <canvas id="repoChart" width="600" height="300"></canvas>
@@ -35,6 +36,15 @@
       const dates = cloneStats.map(r => r.date);
       const clones = cloneStats.map(r => r.clones);
       const uniques = cloneStats.map(r => r.unique_cloners);
+
+      // 🔹 Calculate total sums
+      const totalClones = clones.reduce((a, b) => a + b, 0);
+      const totalUniques = uniques.reduce((a, b) => a + b, 0);
+
+      // 🔹 Show in summary paragraph
+      document.getElementById('cloneSummary').textContent =
+        `📈 Total Clones: ${totalClones} | Unique Cloners: ${totalUniques}`;
+
 
       new Chart(document.getElementById('cloneChart'), {
         type: 'line',
